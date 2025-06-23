@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.commands.MoveLift;
 import org.firstinspires.ftc.teamcode.commands.MoveScorer;
+import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Scorer;
@@ -21,16 +22,25 @@ public class Auto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(this);
 
+        TelemetryCommand telemetryCommand = new TelemetryCommand()
+                .addLine("Running")
+                .addData("Lift", robot.lift::isFinished)
+                .clearEachLoop(true);
+        telemetryCommand.addData("Disabled", () -> telemetryCommand.isDisabled() ? "True" : "False");
+
         CommandRunner commandRunner = new CommandRunner(
-            new SeriesCommand(
-                new MoveLift(Lift.Targets.LOW),
-                new MoveScorer(Scorer.Targets.TRANSFER),
-                new SleepCommand(400),
                 new ParallelCommand(
-                    new MoveLift(Lift.Targets.HIGH),
-                    new MoveScorer(Scorer.Targets.SCORE)
+                        new SeriesCommand(
+                                new MoveLift(Lift.Targets.LOW),
+                                new MoveScorer(Scorer.Targets.TRANSFER),
+                                new SleepCommand(400),
+                                new ParallelCommand(
+                                        new MoveLift(Lift.Targets.HIGH),
+                                        new MoveScorer(Scorer.Targets.SCORE)
+                                )
+                        ),
+                        telemetryCommand
                 )
-            )
         );
 
         waitForStart();
