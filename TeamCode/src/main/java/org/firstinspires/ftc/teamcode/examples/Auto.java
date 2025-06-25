@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Scorer;
+import org.firstinspires.ftc.teamcode.subsystems.TelemetryProfiles;
 import org.ftcvertex.vertices.CommandRunner;
 import org.ftcvertex.vertices.ParallelCommand;
 import org.ftcvertex.vertices.SeriesCommand;
@@ -22,11 +23,8 @@ public class Auto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         robot.init(this);
 
-        TelemetryCommand telemetryCommand = new TelemetryCommand()
-                .addLine("Running")
-                .addData("Lift", robot.lift::isFinished)
-                .clearEachLoop(true);
-        telemetryCommand.addData("Disabled", () -> telemetryCommand.isDisabled() ? "True" : "False");
+        TelemetryCommand telemetryCommand = TelemetryProfiles
+                .getProfile(TelemetryProfiles.Profile.DEFAULT);
 
         CommandRunner commandRunner = new CommandRunner(
                 new ParallelCommand(

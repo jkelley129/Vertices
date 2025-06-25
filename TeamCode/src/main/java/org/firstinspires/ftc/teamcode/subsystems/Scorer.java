@@ -27,4 +27,7 @@ public class Scorer {
     public void setPosition(double target) {
         scorer.setPosition(target);
     }
+    public double getPosition(){
+        return scorer.getPosition();
+    }
 }

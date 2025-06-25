@@ -27,6 +27,17 @@ public class TelemetryCommand implements Command {
         return this;
     }
 
+    public TelemetryCommand addDisabledTag(boolean add) {
+        if (add) {
+            entries.add(new DataEntry("Disabled", this::isDisabled));
+        }
+        return this;
+    }
+
+    public TelemetryCommand addDisabledTag() {
+        return addDisabledTag(true);
+    }
+
     public TelemetryCommand clearEachLoop(boolean clear) {
         this.clearEachLoop = clear;
         return this;
@@ -73,9 +84,20 @@ public class TelemetryCommand implements Command {
         robot.telemetry.clear();
     }
 
+    public TelemetryCommand copy() {
+        TelemetryCommand copy = new TelemetryCommand();
+        for (TelemetryEntry entry : this.entries) {
+            copy.entries.add(entry.copy());
+        }
+        copy.clearEachLoop = this.clearEachLoop;
+        copy.disabled = this.disabled;
+        return copy;
+    }
+
     // Internal interface
     private interface TelemetryEntry {
         void write(Robot robot);
+        TelemetryEntry copy();
     }
 
     private static class DataEntry implements TelemetryEntry {
@@ -91,6 +113,11 @@ public class TelemetryCommand implements Command {
         public void write(Robot robot) {
             robot.telemetry.addData(caption, supplier::get);
         }
+
+        @Override
+        public TelemetryEntry copy() {
+            return new DataEntry(caption, supplier);
+        }
     }
 
     private static class LineEntry implements TelemetryEntry {
@@ -103,6 +130,11 @@ public class TelemetryCommand implements Command {
         @Override
         public void write(Robot robot) {
             robot.telemetry.addLine(line);
+        }
+
+        @Override
+        public TelemetryEntry copy() {
+            return new LineEntry(line);
         }
     }
 }
