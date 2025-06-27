@@ -42,7 +42,7 @@ public class Tele extends LinearOpMode {
         );
 
         ButtonAction stopReset = new ButtonAction(
-                new CustomCommand(liftAndScorer::stop),
+                new CustomCommand(liftAndScorer::cancel),
                 commandRunner
         );
 
