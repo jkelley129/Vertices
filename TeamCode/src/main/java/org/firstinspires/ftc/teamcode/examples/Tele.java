@@ -12,7 +12,9 @@ import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Scorer;
 import org.firstinspires.ftc.teamcode.subsystems.TelemetryProfiles;
 import org.ftcvertex.vertices.CommandRunner;
+import org.ftcvertex.vertices.CustomCommand;
 import org.ftcvertex.vertices.SeriesCommand;
+import org.ftcvertex.vertices.StoppableCommand;
 
 @TeleOp(name = "Tele")
 public class Tele extends LinearOpMode {
@@ -27,11 +29,20 @@ public class Tele extends LinearOpMode {
 
         CommandRunner commandRunner = new CommandRunner(telemetryCommand);
 
-        ButtonAction reset = new ButtonAction(
+        StoppableCommand liftAndScorer = new StoppableCommand(
                 new SeriesCommand(
                         new MoveLift(Lift.Targets.GROUND),
                         new MoveScorer(Scorer.Targets.TRANSFER)
-                ),
+                )
+        );
+
+        ButtonAction reset = new ButtonAction(
+                liftAndScorer,
+                commandRunner
+        );
+
+        ButtonAction stopReset = new ButtonAction(
+                new CustomCommand(liftAndScorer::cancel),
                 commandRunner
         );
 
@@ -59,6 +70,7 @@ public class Tele extends LinearOpMode {
             reset.update(robot.gamepad1.a);
             transfer.update(robot.gamepad1.b);
             score.update(robot.gamepad1.dpad_down);
+            stopReset.update(robot.gamepad1.dpad_up);
 
             if (robot.gamepad2.right_bumper) {
                 telemetryCommand.setDisabled(true);
