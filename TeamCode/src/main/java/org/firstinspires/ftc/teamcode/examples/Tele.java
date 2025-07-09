@@ -7,6 +7,7 @@ import org.firstinspires.ftc.teamcode.commands.ButtonAction;
 import org.firstinspires.ftc.teamcode.commands.MoveLift;
 import org.firstinspires.ftc.teamcode.commands.MoveScorer;
 import org.firstinspires.ftc.teamcode.commands.TelemetryCommand;
+import static org.firstinspires.ftc.teamcode.subsystems.CommandLibrary.Profile;
 import org.firstinspires.ftc.teamcode.subsystems.Lift;
 import org.firstinspires.ftc.teamcode.subsystems.Robot;
 import org.firstinspires.ftc.teamcode.subsystems.Scorer;
@@ -30,10 +31,7 @@ public class Tele extends LinearOpMode {
         CommandRunner commandRunner = new CommandRunner(telemetryCommand);
 
         StoppableCommand liftAndScorer = new StoppableCommand(
-                new SeriesCommand(
-                        new MoveLift(Lift.Targets.GROUND),
-                        new MoveScorer(Scorer.Targets.TRANSFER)
-                )
+                Profile.INTAKE.get()
         );
 
         ButtonAction reset = new ButtonAction(

@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.examples;
 
+import static org.firstinspires.ftc.teamcode.subsystems.CommandLibrary.Profile;
+
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -29,12 +31,12 @@ public class Auto extends LinearOpMode {
         CommandRunner commandRunner = new CommandRunner(
                 new ParallelCommand(
                         new SeriesCommand(
-                                new MoveLift(Lift.Targets.LOW),
-                                new MoveScorer(Scorer.Targets.TRANSFER),
+                                Profile.TRANSFER.get(),
                                 new SleepCommand(400),
+                                Profile.SCORE.get(),
                                 new ParallelCommand(
                                         new MoveLift(Lift.Targets.HIGH),
-                                        new MoveScorer(Scorer.Targets.SCORE)
+                                        new MoveScorer(Scorer.Targets.TRANSFER)
                                 )
                         ),
                         telemetryCommand
