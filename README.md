@@ -51,10 +51,15 @@ This runs `MoveArm` and `OpenClaw` simultaneously, then executes `DriveForward` 
 ### Debug Commands
 - **`TelemetryCommand`** - Creates telemetry displays with method chaining
   ```java
-  telemetryCommand
+  TelemetryCommand telemetryCommand = new TelemetryCommand()
       .addLine("Robot Status")
       .addData("Position", () -> robot.getPosition())
       .addDisabledTag();
+  ```
+  Alternatively, use the `TelemetryProfiles` subsystem to store and call `TelemetryCommand`s easily.
+  ```java
+  TelemetryCommand telemetryCommand = TelemetryProfiles
+                .getProfile(TelemetryProfiles.Profile.TELEOP);
   ```
 
 ## Required Subsystems
@@ -66,6 +71,7 @@ Central container for all hardware and subsystems. Access via `Robot.getInstance
 Manages saved `TelemetryCommand` instances mapped to enums.
 - `getProfile(Profile profile)` - Returns a copy of the specified telemetry profile
 
+See [Debug Commands](#Debug-Commands) for example usage
 ## Example Usage
 
 ```java
