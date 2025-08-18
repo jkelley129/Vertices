@@ -71,6 +71,10 @@ Central container for all hardware and subsystems. Access via `Robot.getInstance
 Manages saved `TelemetryCommand` instances mapped to enums.
 - `getProfile(Profile profile)` - Returns a copy of the specified telemetry profile
 
+### CommandLibrary
+Manages saved `Command` instances with an enum constructor
+-   `CommandLibrary.Profile.MoveLift.get()`
+
 See [Debug Commands](#Debug-Commands) for example usage
 ## Example Usage
 
