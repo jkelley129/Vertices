@@ -14,11 +14,11 @@ public class AwaitCommand implements Command {
         useTimeout = false;
     }
 
-    public AwaitCommand(Condition condition, double timeoutDuration) {
+    public AwaitCommand(Condition condition, double timeoutDurationMillis) {
         this.condition = condition;
 
         useTimeout = true;
-        this.timeoutDuration = timeoutDuration;
+        this.timeoutDuration = timeoutDurationMillis;
     }
 
     public void init() {

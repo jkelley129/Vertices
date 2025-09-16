@@ -2,16 +2,16 @@ package org.ftcvertex.vertices;
 
 public class CustomCommand implements Command {
     private final Runnable toRun;
+    private boolean initialLoop = true;
 
     public CustomCommand(Runnable toRun) {
         this.toRun = toRun;
     }
 
-    public void init() {
-        toRun.run();
-    }
+    public void init() {}
 
     public void loop() {
+        if(initialLoop) toRun.run(); initialLoop = false;
     }
 
     public boolean isFinished() {

@@ -42,6 +42,6 @@ public class CommandRunner {
     }
 
     public boolean isFinished() {
-        return false;
+        return commands.isEmpty();
     }
 }
